@@ -68,7 +68,7 @@ public class Library {
                     handleAddNewAuthor(scanner);
                     break;
                 case 3:
-                    handleUpdateAuthorById(scanner,listAuthors,listBooks);
+                    handleUpdateAuthorById(scanner, listAuthors, listBooks);
                     break;
                 case 4:
                     handleSearchAuthorByName(scanner);
@@ -111,10 +111,13 @@ public class Library {
                     handleUpdateBookById(scanner);
                     break;
                 case 4:
+                    handleSearchBookByName(scanner);
                     break;
                 case 5:
+                    handleSearchBookByPriceSpace(scanner);
                     break;
                 case 6:
+                    handleRemoveBookById(scanner);
                     break;
                 case 7:
                     menuLibrary(listAuthors, listBooks);
@@ -184,7 +187,7 @@ public class Library {
             System.out.println("4. Cập nhật trạng thái (true/false)");
             System.out.println("5. Thoát");
             int choice = Integer.parseInt(sc.nextLine());
-            switch (choice){
+            switch (choice) {
                 case 1:
                     System.out.println("Nhập tên để cập nhật: ");
                     authorUpdate.setAuthorName(authorUpdate.inputAuthorName(sc));
@@ -207,11 +210,11 @@ public class Library {
                 default:
                     System.err.println("Nhập từ 1-5");
             }
-            authorFeature.updateAuthor(authorUpdate,indexUpdate);
-        }while (isLoop);
+            authorFeature.updateAuthor(authorUpdate, indexUpdate);
+        } while (isLoop);
     }
 
-    public static void handleSearchAuthorByName(Scanner sc){
+    public static void handleSearchAuthorByName(Scanner sc) {
         System.out.println("Nhập tên của tác giả để tìm: ");
         String authorName = sc.nextLine();
         for (Author author : AuthorFeatureImpl.authorList) {
@@ -221,11 +224,11 @@ public class Library {
         }
     }
 
-    public static void handleStatistical(){
+    public static void handleStatistical() {
         for (Author author : AuthorFeatureImpl.authorList) {
             int count = 0;
-            for (Book book : BookFeatureImpl.booksList){
-                if (book.getAuthor().getAuthorId() == author.getAuthorId()){
+            for (Book book : BookFeatureImpl.booksList) {
+                if (book.getAuthor().getAuthorId() == author.getAuthorId()) {
                     count++;
                 }
             }
@@ -272,7 +275,7 @@ public class Library {
             System.out.println("4. Cập nhật trạng thái (0: Đang bán/1: Hết hàng/2: Không bán)");
             System.out.println("5. Thoát");
             int choice = Integer.parseInt(sc.nextLine());
-            switch (choice){
+            switch (choice) {
                 case 1:
                     System.out.println("Nhập tên để cập nhật: ");
                     bookUpdate.setBookName(bookUpdate.inputBookName(sc, BookFeatureImpl.booksList));
@@ -283,7 +286,7 @@ public class Library {
                     break;
                 case 3:
                     System.out.println("Nhập tác giả của sách để cập nhật: ");
-                    bookUpdate.setAuthor(bookUpdate.inputAuthor(sc,BookFeatureImpl.booksList,AuthorFeatureImpl.authorList));
+                    bookUpdate.setAuthor(bookUpdate.inputAuthor(sc, BookFeatureImpl.booksList, AuthorFeatureImpl.authorList));
                     break;
                 case 4:
                     System.out.println("Nhập trạng thái để cập nhật (0: Đang bán/1: Hết hàng/2: Không bán): ");
@@ -295,7 +298,70 @@ public class Library {
                 default:
                     System.err.println("Nhập từ 1-5");
             }
-            bookFeature.updateBook(bookUpdate,indexUpdate);
-        }while (isLoop);
+            bookFeature.updateBook(bookUpdate, indexUpdate);
+        } while (isLoop);
+    }
+
+    public static void handleSearchBookByName(Scanner sc) {
+        System.out.println("Nhập tên sách để tìm: ");
+        String bookName = sc.nextLine();
+        int count = 0;
+        for (int i = 0; i < BookFeatureImpl.booksList.size(); i++) {
+            if (BookFeatureImpl.booksList.get(i).getBookName().contains(bookName)) {
+                BookFeatureImpl.booksList.get(i).displayData();
+                count++;
+            }
+        }
+        System.out.printf("Tìm được %d sách.\n", count);
+    }
+
+    public static void handleSearchBookByPriceSpace(Scanner sc) {
+        System.out.println("Nhập khoảng tiền để tìm. Bắt đầu: ");
+        double firstDPrice = 0, lastDPrice = 0;
+        //Kiểm tra số đầu có phải là số ko
+        do {
+            String firstPrice = sc.nextLine();
+            try {
+                if (Double.parseDouble(firstPrice) > 0) {
+                    firstDPrice = Double.parseDouble(firstPrice);
+                    break;
+                } else {
+                    System.err.println("Giá nhập vào bị lỗi(phải lớn hơn 0). Mời nhập lại");
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Giá nhập vào bị lỗi. Chỉ nhận số là số đó > 0.");
+            }
+        } while (true);
+        System.out.println("Nhập tiền cuối cùng để tìm: ");
+        //Kiểm tra số 2 có phải là số ko và có lớn hơn số đầu ko?
+        do {
+            String lastPrice = sc.nextLine();
+            try {
+                if (Double.parseDouble(lastPrice) > 0 && Double.parseDouble(lastPrice) >= firstDPrice) {
+                    lastDPrice = Double.parseDouble(lastPrice);
+                    break;
+                } else {
+                    System.err.println("Giá nhập cuối vào bị lỗi(phải lớn hơn 0 và lớn hơn số phía trước). Mời nhập lại");
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("Giá nhập vào bị lỗi. Chỉ nhận số là số đó > 0.");
+            }
+        } while (true);
+
+        int count=0;
+        for (Book book : BookFeatureImpl.booksList) {
+            if(book.getExportPrice()>=firstDPrice && book.getExportPrice()<=lastDPrice){
+                book.displayData();
+                count++;
+            }
+        }
+        System.out.println("Tìm thấy " + count  + " sách trong khoảng giá.");
+    }
+
+    public static void handleRemoveBookById(Scanner scanner){
+        System.out.println("Nhập id của sách để xoá: ");
+        String bookId = scanner.nextLine();
+
+        bookFeature.removeBook(bookId);
     }
 }

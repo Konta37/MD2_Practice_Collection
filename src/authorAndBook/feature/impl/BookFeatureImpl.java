@@ -21,7 +21,12 @@ public class BookFeatureImpl implements IBook {
 
     @Override
     public void removeBook(String bookId) {
-        booksList.remove(bookId);
+        int indexDelete = findIndexBookById(bookId);
+        if (indexDelete != -1) {
+            booksList.remove(indexDelete);
+        }else {
+            System.out.println("Không tìm thấy id đó để xoá");
+        }
     }
 
     @Override
