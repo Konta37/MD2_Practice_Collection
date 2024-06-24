@@ -94,23 +94,23 @@ public class StudentManagement {
             int choice = Integer.parseInt(sc.nextLine());
             switch (choice) {
                 case 1:
-                    System.out.println("Enter Student Name: ");
+
                     studentUpdate.setStudentName(studentUpdate.inputStudentName(sc));
                     break;
                 case 2:
-                    System.out.println("Enter Student Date of Birth: ");
+
                     studentUpdate.setDateOfBirth(studentUpdate.inputDateOfBirth(sc));
                     break;
                 case 3:
-                    System.out.println("Enter Student Class: ");
+
                     studentUpdate.setClasses(studentUpdate.inputClassData(sc));
                     break;
                 case 4:
-                    System.out.println("Enter Student Sex: ");
+
                     studentUpdate.setSex(studentUpdate.inputSex(sc));
                     break;
                 case 5:
-                    System.out.println("Enter Student Status: ");
+
                     studentUpdate.setStatus(studentUpdate.inputStatus(sc));
                     break;
                 case 6:
