@@ -1,7 +1,7 @@
-package Basic.run;
+package hackathontest.Basic.run;
 
-import Basic.bussinessImp.Product;
-import Basic.color.ColorStorage;
+import hackathontest.Basic.bussinessImp.Product;
+import hackathontest.Basic.color.ColorStorage;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,16 +83,67 @@ public class ProductManagement {
         for (Product product : productList) {
             product.displayData();
         }
+        System.out.println("Finish show all products");
     }
     public static void sortProductByInterest() {
         Collections.sort(productList);
+        System.out.printf("%-5s %-20s %-20s %-20s %-10s %-10s %-10s %-10s%n\n","ID","Name","Title","Description","Import","Export","Interest","Status");
         for (Product product : productList) {
             product.displayData();
         }
+        System.out.println("Finish sorting products by interest");
     }
     public static void deleteProductById(Scanner sc) {
+        System.out.println("Enter product id to delete: ");
+        int id = Integer.parseInt(sc.nextLine());
+        int indexDel = findId(id);
 
+        if (indexDel != -1) {
+            productList.remove(indexDel);
+            System.out.println("Product deleted successfully");
+        }else {
+            System.out.println("Can't find product with id " + id);
+        }
     }
-    public static void searchProductByName(Scanner sc) {}
-    public static void changeStatus(Scanner sc) {}
+    public static void searchProductByName(Scanner sc) {
+        System.out.println("Enter product name to search: ");
+        String name = sc.nextLine();
+        int count =0;
+
+        for (Product product : productList) {
+            if (product.getProductName().contains(name)){
+                System.out.printf("%-5s %-20s %-20s %-20s %-10s %-10s %-10s %-10s%n\n","ID","Name","Title","Description","Import","Export","Interest","Status");
+                product.displayData();
+                count++;
+            }
+        }
+        System.out.println("There are " + count + " products with the name " + name);
+        System.out.println("Finish searching product by name");
+    }
+    public static void changeStatus(Scanner sc) {
+        System.out.println("Enter product id to change status: ");
+        int id = Integer.parseInt(sc.nextLine());
+        int indexUpdateStatus = findId(id);
+
+        if (indexUpdateStatus != -1) {
+            if (productList.get(indexUpdateStatus).isProductStatus()){
+                productList.get(indexUpdateStatus).setProductStatus(false);
+                System.out.println("Product status changed to false");
+            }else {
+                productList.get(indexUpdateStatus).setProductStatus(true);
+                System.out.println("Product status changed to true");
+            }
+        }else {
+            System.out.println("Can't find product with id " + id);
+        }
+    }
+
+    public static int findId(int id){
+        for (int i = 0; i < productList.size(); i++) {
+            if (id == productList.get(i).getProductId()){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

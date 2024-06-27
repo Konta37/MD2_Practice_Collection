@@ -1,4 +1,4 @@
-package Basic.bussiness;
+package hackathontest.Basic.bussiness;
 
 public interface IProduct {
     void inputData();

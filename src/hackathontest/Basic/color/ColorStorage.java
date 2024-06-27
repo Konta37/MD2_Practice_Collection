@@ -1,4 +1,4 @@
-package Basic.color;
+package hackathontest.Basic.color;
 
 public class ColorStorage {
     public static final String RESET = "\033[0m";  // Reset color

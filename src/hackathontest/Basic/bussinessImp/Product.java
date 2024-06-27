@@ -1,6 +1,6 @@
-package Basic.bussinessImp;
+package hackathontest.Basic.bussinessImp;
 
-import Basic.bussiness.IProduct;
+import hackathontest.Basic.bussiness.IProduct;
 
 import java.util.Scanner;
 
