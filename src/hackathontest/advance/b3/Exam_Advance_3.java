@@ -17,7 +17,7 @@ public class Exam_Advance_3 {
         String thinBorder = borderColor + "║" + ColorStorage.RESET;
         boolean isOut = true;
         do {
-            String thickBorder = borderColor +   "╔══════════════════════════MENU══════════════════════════╗" + ColorStorage.RESET;
+            String thickBorder = borderColor +   "╔══════════════════════════MENU═══════════════════════════════╗" + ColorStorage.RESET;
             System.out.println(thickBorder);
             System.out.println(thinBorder + " " + borderColor + "1. Enter Customer Name who is waiting in line to buy tickets" + thinBorder);
             System.out.println(thinBorder + " " + borderColor + "2. Next Customer                                            " + thinBorder);
